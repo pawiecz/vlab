@@ -13,5 +13,6 @@ Vagrant.configure("2") do |config|
     a2dissite 000-default.conf
     a2ensite lava-server.conf
     service apache2 reload
+    echo "from django.contrib.auth.models import User; User.objects.create_superuser('vagrant', 'vagrant@localhost', 'vagrant')" | lava-server manage shell
   SHELL
 end
