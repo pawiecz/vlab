@@ -3,3 +3,35 @@ Virtual LAVA laboratory
 =======================
 
 Get your own LAVA laboratory up and running in no time.
+
+Getting started
+---------------
+
+Prerequisites
+~~~~~~~~~~~~~
+
+* VirtualBox_
+* Vagrant_
+* Ansible_
+
+.. _VirtualBox: https://www.virtualbox.org/wiki/Downloads
+.. _Vagrant: https://www.vagrantup.com/downloads.html
+.. _Ansible: http://docs.ansible.com/ansible/latest/intro_installation.html
+
+Running
+~~~~~~~
+
+.. code:: sh
+
+    vagrant up
+
+
+Tested environment
+------------------
+
+========== ================
+Ubuntu     16.04 ("Xenial")
+VirtualBox 5.1.30
+Vagrant    2.0.1
+Ansible    2.4.1.0
+========== ================

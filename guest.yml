@@ -1,0 +1,57 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+  tasks:
+    - name: Install PostgreSQL
+      apt:
+        name: postgresql
+        state: present
+
+    - name: Install LAVA metapackage
+      apt:
+        name: lava
+        state: present
+
+    - name: Disable default virtual host
+      file:
+        path: /etc/apache2/sites-enabled/000-default.conf
+        state: absent
+      notify:
+        - Reload Apache
+
+    - name: Enable required Apache modules
+      apache2_module:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - proxy
+        - proxy_http
+      notify:
+        - Restart Apache
+
+    - name: Enable LAVA virtual host
+      file:
+        src: /etc/apache2/sites-available/lava-server.conf
+        dest: /etc/apache2/sites-enabled/lava-server.conf
+        state: link
+      notify:
+        - Reload Apache
+
+    - name: Create LAVA superuser
+      shell: >
+        echo "from django.contrib.auth.models import User;
+        User.objects.create_superuser('vagrant', 'vagrant@localhost', 'vagrant')"
+        | lava-server manage shell
+
+  handlers:
+    - name: Reload Apache
+      service: name=apache2 state=reloaded
+
+    - name: Restart Apache
+      service: name=apache2 state=restarted
