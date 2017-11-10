@@ -7,6 +7,9 @@ Get your own LAVA laboratory up and running in no time.
 Getting started
 ---------------
 
+To create own laboratory, ensure that ``pip`` and ``ansible`` are installed,
+then run ``bootstrap.sh``.
+
 Prerequisites
 ~~~~~~~~~~~~~
 

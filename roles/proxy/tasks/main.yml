@@ -1,0 +1,24 @@
+---
+- name: Install Squid
+  apt:
+    name: squid
+    state: present
+
+- name: Set Squid cache size to 80% of available disk space
+  lineinfile:
+    dest: /etc/squid/squid.conf
+    state: present
+    regexp: '^#?(\s)*cache_dir(\s)+'
+    line: 'cache_dir ufs /var/spool/squid {{ squid_quota|int }} 16 256'
+  vars:
+    # free_space stores available space on /
+    free_space: "{{ ansible_mounts|json_query('[?mount==`/`] | [0].size_available') }}"
+    # squid_quota stores 80% of free_space (in MB)
+    squid_quota: "{{ free_space|float / 10**6 * 0.8}}"
+
+- name: Set maximum Squid object size to 1GB
+  lineinfile:
+    dest: /etc/squid/squid.conf
+    state: present
+    regexp: '^#?(\s)*maximum_object_size(\s)+'
+    line: 'maximum_object_size 1 GB'

@@ -1,0 +1,15 @@
+---
+- name: Check if superuser is present
+  shell: >
+    echo "from django.contrib.auth import get_user_model;
+    print(get_user_model().objects.filter(username='{{ admin_user }}').count() > 0)"
+    | lava-server manage shell
+  register: superuser_presence
+  changed_when: "'False' in superuser_presence.stdout"
+
+- name: Create superuser
+  shell: >
+    echo "from django.contrib.auth.models import User;
+    User.objects.create_superuser('{{ admin_user }}', '{{ admin_email }}', '{{ admin_pass }}')"
+    | lava-server manage shell
+  when: superuser_presence.changed

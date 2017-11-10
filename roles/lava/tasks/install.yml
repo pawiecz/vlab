@@ -1,0 +1,5 @@
+---
+- name: Install metapackage
+  apt:
+    name: lava
+    state: present

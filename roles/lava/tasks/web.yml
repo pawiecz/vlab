@@ -1,0 +1,25 @@
+---
+- name: Disable default virtual host
+  file:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+  notify:
+    - Reload Apache
+
+- name: Enable required modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - proxy
+    - proxy_http
+  notify:
+    - Restart Apache
+
+- name: Enable LAVA virtual host
+  file:
+    src: /etc/apache2/sites-available/lava-server.conf
+    dest: /etc/apache2/sites-enabled/lava-server.conf
+    state: link
+  notify:
+    - Reload Apache

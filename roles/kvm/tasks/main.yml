@@ -1,0 +1,9 @@
+---
+- name: Install KVM
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - qemu-kvm
+    - libvirt-clients
+    - libvirt-daemon-system

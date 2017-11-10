@@ -1,0 +1,35 @@
+---
+- name: Install build dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - vagrant
+    - ruby-libvirt
+
+- name: Install tools
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - qemu
+    - libvirt-bin
+    - ebtables
+    - dnsmasq
+
+- name: Install development files
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libxslt-dev
+    - libxml2-dev
+    - libvirt-dev
+    - zlib1g-dev
+    - ruby-dev
+
+- name: Install libvirt provider plugin
+  command: vagrant plugin install vagrant-libvirt --plugin-version 0.0.35
+  become: false
+  register: vagrant_libvirt_presence
+  changed_when: "'Fetching: vagrant-libvirt' in vagrant_libvirt_presence.stdout"

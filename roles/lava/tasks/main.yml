@@ -1,0 +1,5 @@
+---
+- include: install.yml
+- include: web.yml
+- include: admin.yml
+- include: device.yml

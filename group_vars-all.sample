@@ -1,0 +1,11 @@
+---
+admin_user: vagrant
+admin_email: vagrant@localhost
+admin_pass: MODIFY_ME
+healthcheck: qemu.yaml
+device_name: qemu01
+device_memory: 256
+device_dict: "{{ device_name }}.dict"
+tmp: /tmp/
+tmp_healthcheck: "{{ tmp }}{{ healthcheck }}"
+tmp_device_dict: "{{ tmp }}{{ device_dict }}"

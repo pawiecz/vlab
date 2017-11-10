@@ -1,0 +1,35 @@
+---
+- name: Get health check
+  get_url:
+    url: http://git.linaro.org/lava-team/refactoring.git/plain/health-checks/qemu.yaml
+    dest: "{{ tmp_healthcheck }}"
+
+- name: Add device type
+  command: >
+    lava-server manage add-device-type
+    --health-check {{ tmp_healthcheck }}
+    qemu
+  register: qemu_device_type_presence
+  changed_when: "'[skip] (already installed)' not in qemu_device_type_presence.stdout"
+
+- name: Add device to the database
+  command: >
+    lava-server manage add-device
+    --device-type qemu
+    --worker {{ ansible_fqdn }}
+    {{ device_name }}
+  register: qemu_device_presence
+  changed_when: "'[SKIP]' not in qemu_device_presence.stdout"
+
+- name: Create device-specific details
+  template:
+    src: "{{ device_dict }}.j2"
+    dest: "{{ tmp_device_dict }}"
+  when: qemu_device_presence.changed
+
+- name: Add device device-specific details
+  command: >
+    lava-server manage device-dictionary
+    --hostname {{ device_name }}
+    --import {{ tmp_device_dict }}
+  when: qemu_device_presence.changed
