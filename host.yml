@@ -7,6 +7,6 @@
         update_cache: yes
         cache_valid_time: 3600
   roles:
-    - kvm
+    - kvm-legacy
     - andrewrothstein.vagrant
     - vagrant-libvirt
