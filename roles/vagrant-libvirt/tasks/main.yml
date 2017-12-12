@@ -1,11 +1,25 @@
 ---
+- name: Bootstrap apt_repository module dependency
+  apt:
+    name: python-apt
+    state: present
+
+- name: Enable source repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: 'source-repos'
+  with_items: "{{ source_repos }}"
+
 - name: Install build dependencies
   apt:
     name: "{{ item }}"
-    state: present
+    state: build-dep
   with_items:
     - vagrant
     - ruby-libvirt
+  notify:
+    - Disable source repositories
 
 - name: Install tools
   apt:

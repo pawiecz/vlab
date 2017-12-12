@@ -1,0 +1,7 @@
+---
+- name: Disable source repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: absent
+    filename: 'source-repos'
+  with_items: "{{ source_repos }}"
