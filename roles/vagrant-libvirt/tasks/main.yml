@@ -43,7 +43,7 @@
     - ruby-dev
 
 - name: Install libvirt provider plugin
-  command: vagrant plugin install vagrant-libvirt --plugin-version 0.0.35
+  command: vagrant plugin install vagrant-libvirt
   become: false
   register: vagrant_libvirt_presence
   changed_when: "'Fetching: vagrant-libvirt' in vagrant_libvirt_presence.stdout"
