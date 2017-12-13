@@ -1,1 +1,3 @@
-- src: andrewrothstein.vagrant
+- src: https://github.com/pawiecz/ansible-vagrant
+  version: bump-2_0_1
+  name: vagrant
