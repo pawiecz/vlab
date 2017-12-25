@@ -13,12 +13,10 @@ then run ``bootstrap.sh``.
 Prerequisites
 ~~~~~~~~~~~~~
 
-* VirtualBox_
-* Vagrant_
+* pip_
 * Ansible_
 
-.. _VirtualBox: https://www.virtualbox.org/wiki/Downloads
-.. _Vagrant: https://www.vagrantup.com/downloads.html
+.. _pip: https://pip.pypa.io/en/stable/installing
 .. _Ansible: http://docs.ansible.com/ansible/latest/intro_installation.html
 
 Running
@@ -26,7 +24,7 @@ Running
 
 .. code:: sh
 
-    vagrant up
+    ./bootstrap.sh
 
 
 Tested environment
